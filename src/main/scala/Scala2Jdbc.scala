@@ -52,4 +52,29 @@ object Scala2Jdbc {
         connection
     }
   }
+
+  def persistDbTable(dbTable: DbTable, user: User): Unit = {
+    println("Going to persist DbTable obj...\n")
+
+    val columns = user.productElementNames.toList
+    val values = user.productIterator.toList
+
+    var insertStr = "INSERT INTO " + dbTable.name + " ("
+    insertStr += columns.mkString(", ") + ") VALUES (\n"
+    insertStr += values.map(v => "\"" + v + "\"").mkString(", ")
+    insertStr += "\n);"
+
+    println(insertStr)
+
+    val stmt = connection.createStatement()
+    try {
+      stmt.executeUpdate(insertStr)
+      System.out.println("\nTable created successfully!")
+    } catch {
+      case sQLException: SQLException =>
+        println(sQLException.getMessage)
+    } finally {
+      stmt.close()
+    }
+  }
 }
