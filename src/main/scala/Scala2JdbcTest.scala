@@ -1,12 +1,5 @@
-import java.sql.Connection
-
-import schema.{DbColumn, DbTable}
-
-case class User(username: String, password: String) {
-  override def toString: String = User.unapply(this).get.toString
-
-  User.unapply(this).get.productIterator.mkString("\t")
-}
+import jdbc2scala.generic.schema.{DbColumn, DbTable}
+import jdbc2scala.generic.{Scala2Jdbc, User}
 
 object Scala2JdbcTest extends App {
 
@@ -16,9 +9,7 @@ object Scala2JdbcTest extends App {
   // MetaData.getAllColumns(connection, "currencies").foreach(println(_))
 
   val dbTable = DbTable("users", dbColumns)
-  Scala2Jdbc.createTable(dbTable)
   val user = User("admin", "demo")
-  var connection: Connection = Scala2Jdbc.getConnection
 
   Scala2Jdbc.persistDbTable(dbTable, user)
 }

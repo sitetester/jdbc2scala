@@ -1,4 +1,4 @@
-package meta
+package jdbc2scala.generic.metadata
 
 import java.sql.{Connection, ResultSet}
 

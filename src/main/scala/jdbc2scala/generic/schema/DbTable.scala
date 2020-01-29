@@ -1,3 +1,3 @@
-package schema
+package jdbc2scala.generic.schema
 
 case class DbTable(name: String, columns: List[DbColumn]) {}
