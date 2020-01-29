@@ -25,5 +25,3 @@ object ConnectionMaker {
     }
   }
 }
-
-class UnsupportedDriverException(message: String) extends SQLException(message)
