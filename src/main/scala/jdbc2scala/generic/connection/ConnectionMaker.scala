@@ -15,7 +15,9 @@ object ConnectionMaker {
 
       Class.forName(driver.classForName)
       connection = DriverManager.getConnection(driver.url)
-      System.out.println("Connection to sqlite has been established.")
+
+      System.out.println(
+        s"Connection to `${driver.classForName.split("\\.").slice(1, 2).head}` has been established.")
       connection
 
     } catch {
