@@ -31,7 +31,6 @@ class QueryBuilder(dbTable: DbTable) {
   }
 
   def where(where: Map[String, Any]): QueryBuilder = {
-    // def where(where: Map[String, String] = Map()): Unit = {
     val whereClause =
       where.keys
         .zip(where.values)
@@ -71,7 +70,6 @@ class QueryBuilder(dbTable: DbTable) {
   }
 
   def having(column: String, operator: String = "=", value: Any): QueryBuilder = {
-
     _sql += s" HAVING $column $operator $value"
     this
   }
@@ -91,7 +89,6 @@ class QueryBuilder(dbTable: DbTable) {
   def runQuery(): Seq[Seq[(String, Any)]] = {
     val sql = _sql
 
-    // def runQuery(sql: String): Unit = {
     println("sql ------- " + sql)
 
     var ret = Seq[Seq[(String, Any)]]()
