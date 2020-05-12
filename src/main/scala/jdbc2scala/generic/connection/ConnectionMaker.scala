@@ -16,10 +16,10 @@ object ConnectionMaker {
       Class.forName(driver.classForName)
       connection = DriverManager.getConnection(driver.url)
 
-      System.out.println(
-        s"Connection to `${driver.classForName.split("\\.").slice(1, 2).head}` has been established.")
-      connection
+      val dbEngine = driver.classForName.split("\\.").slice(1, 2).head
+      println(s"Connection to $dbEngine has been established.")
 
+      connection
     } catch {
       case e: SQLException =>
         System.out.println(e.getMessage)
