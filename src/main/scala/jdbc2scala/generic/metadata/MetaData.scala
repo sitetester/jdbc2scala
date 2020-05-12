@@ -22,8 +22,7 @@ object MetaData {
   def getAllColumns(connection: Connection, table: String): List[Column] = {
     val columns = new ListBuffer[Column]()
 
-    val rs: ResultSet =
-      connection.getMetaData.getColumns(null, null, table, null)
+    val rs: ResultSet = connection.getMetaData.getColumns(null, null, table, null)
     while (rs.next()) {
       columns += Column(rs.getString(4), rs.getString(6))
     }
