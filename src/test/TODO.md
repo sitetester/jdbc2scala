@@ -1,0 +1,1 @@
+- Add unit tests for query builder. It should return generated SQL string. 

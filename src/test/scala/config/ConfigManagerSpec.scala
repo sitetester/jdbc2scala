@@ -6,6 +6,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ConfigManagerSpec extends AnyFlatSpec {
 
   "it" should "load configuration" in {
-    assert(ConfigManager.loadConfig().isInstanceOf[AppConfig])
+    val config = ConfigManager.loadConfig()
+    assert(config.isInstanceOf[AppConfig])
   }
 }

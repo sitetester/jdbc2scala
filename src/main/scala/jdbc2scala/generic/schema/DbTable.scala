@@ -1,3 +1,4 @@
 package jdbc2scala.generic.schema
 
-case class DbTable(name: String, columns: List[DbColumn]) {}
+// TODO: Write a shell script for schema generation (similar to Symfony entity generator)
+case class DbTable(name: String, columns: List[DbColumn], ID: Int = 0) {}
