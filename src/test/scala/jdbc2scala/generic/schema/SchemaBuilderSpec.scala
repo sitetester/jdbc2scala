@@ -4,11 +4,11 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class SchemaBuilderSpec extends AnyFlatSpec {
 
-  "it" should "create table in sqlite" in {
+  "it" should "create table" in {
 
-    val dbColumns = List(DbColumn("username"), DbColumn("password"))
-    val dbTable = DbTable("users", dbColumns)
+    val users: DbTable = DbTable("users", List(DbColumn("username"), DbColumn("password")))
 
-    SchemaManager.createTable(dbTable)
+    SchemaManager.dropTable(users)
+    SchemaManager.createTable(users)
   }
 }

@@ -13,9 +13,21 @@ object SchemaManager {
     val schemaBuilder = getSchemaBuilder
     val sql = schemaBuilder.getCreateTableSql(dbTable)
 
-    val stmt = ConnectionMaker.makeConnection.createStatement()
-    try {
+    runSql(sql)
+  }
 
+  def dropTable(dbTable: DbTable): Unit = {
+
+    val schemaBuilder = getSchemaBuilder
+    val sql = schemaBuilder.getDropTableSql(dbTable)
+
+    runSql(sql)
+  }
+
+  private def runSql(sql: String): Unit = {
+    val stmt = ConnectionMaker.makeConnection.createStatement()
+
+    try {
       stmt.executeUpdate(sql)
       System.out.println("\nTable created successfully!")
     } catch {

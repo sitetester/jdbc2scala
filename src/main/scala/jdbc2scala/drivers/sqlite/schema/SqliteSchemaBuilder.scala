@@ -23,4 +23,8 @@ object SqliteSchemaBuilder extends SchemaBuilder {
     sql += ");"
     sql
   }
+
+  override def getDropTableSql(dbTable: DbTable): String = {
+    "DROP TABLE `" + dbTable.name + "`"
+  }
 }
