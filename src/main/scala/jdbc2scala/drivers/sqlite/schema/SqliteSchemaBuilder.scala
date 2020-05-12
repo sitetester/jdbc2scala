@@ -4,7 +4,7 @@ import jdbc2scala.generic.schema.{DbTable, SchemaBuilder}
 
 object SqliteSchemaBuilder extends SchemaBuilder {
 
-  override def createTableSql(dbTable: DbTable): String = {
+  override def getCreateTableSql(dbTable: DbTable): String = {
 
     var sql = "\nCREATE TABLE IF NOT EXISTS " + dbTable.name + "(\n"
     sql += "\tID INTEGER PRIMARY KEY,\n"

@@ -11,7 +11,7 @@ object SchemaManager {
   def createTable(dbTable: DbTable): Unit = {
 
     val schemaBuilder = getSchemaBuilder
-    val sql = schemaBuilder.createTableSql(dbTable)
+    val sql = schemaBuilder.getCreateTableSql(dbTable)
 
     val stmt = ConnectionMaker.makeConnection.createStatement()
     try {
@@ -19,8 +19,7 @@ object SchemaManager {
       stmt.executeUpdate(sql)
       System.out.println("\nTable created successfully!")
     } catch {
-      case sQLException: SQLException =>
-        println(sQLException.getMessage)
+      case sQLException: SQLException => println(sQLException.getMessage)
     } finally {
       stmt.close()
     }

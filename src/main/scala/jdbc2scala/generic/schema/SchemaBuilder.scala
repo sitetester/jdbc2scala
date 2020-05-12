@@ -2,5 +2,5 @@ package jdbc2scala.generic.schema
 
 trait SchemaBuilder {
 
-  def createTableSql(dbTable: DbTable): String
+  def getCreateTableSql(dbTable: DbTable): String
 }
