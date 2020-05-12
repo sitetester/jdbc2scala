@@ -5,8 +5,13 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class MetaDataSpec extends AnyFlatSpec {
 
-  "it" should "return getAllTables" in {
+  "it" should "optionally return getAllTables" in {
+    val allTables = MetaData.getAllTables(ConnectionMaker.makeConnection)
+    assert(allTables.isInstanceOf[Option[List[String]]])
+  }
 
-    MetaData.getAllTables(ConnectionMaker.makeConnection)
+  "it" should "return getAllColumns" in {
+    val columns = MetaData.getAllColumns(ConnectionMaker.makeConnection, "users")
+    assert(columns.length == 3)
   }
 }
