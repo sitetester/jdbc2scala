@@ -6,9 +6,14 @@ class SchemaBuilderSpec extends AnyFlatSpec {
 
   "it" should "create table" in {
 
-    val users: DbTable = DbTable("users", List(DbColumn("username"), DbColumn("password")))
+    val users: DbTable =
+      DbTable(
+        "users",
+        List(DbColumn("username", isUnique = true), DbColumn("password")),
+        DbIDColumn(),
+        List(DbIndex("idx_username", List("username")))
+      )
 
-    SchemaManager.dropTable(users)
     SchemaManager.createTable(users)
   }
 }
