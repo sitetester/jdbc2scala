@@ -1,8 +1,7 @@
 package jdbc2scala.generic.schema
 
 /**
-  *
-  * @param name     - comma separate name, should be prefixed with "idx"
+  * @param name     - comma separated name, should be prefixed with "idx"
   * @param columns  - could be single or multiple columns
   * @param isUnique - true|false
   */
