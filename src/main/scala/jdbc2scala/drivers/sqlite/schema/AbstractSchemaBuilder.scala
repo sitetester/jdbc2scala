@@ -1,12 +1,16 @@
 package jdbc2scala.drivers.sqlite.schema
 
-import jdbc2scala.generic.schema.{DbColumn, DbTable, SchemaBuilder}
+import jdbc2scala.generic.schema.{DbColumn, DbIDColumn, DbTable, SchemaBuilder}
 
 class AbstractSchemaBuilder extends SchemaBuilder {
 
   override def getCreateTableSql(dbTable: DbTable): String = {
 
     var sql = "\nCREATE TABLE IF NOT EXISTS `" + dbTable.name + "` (\n"
+
+    val dbIDColumn = dbTable.dbIDColumn
+    val name = getIDColumnName(dbIDColumn)
+    sql += s"`$name` INTEGER PRIMARY KEY, \n"
 
     var counter = 0
     val columnsLength = dbTable.columns.length
@@ -56,8 +60,15 @@ class AbstractSchemaBuilder extends SchemaBuilder {
     otherOptions.filter(_._1 == option).head._2
   }
 
-  private def getName(column: DbColumn): String = {
+  private def getIDColumnName(column: DbIDColumn): String = {
+    val cols = column.productElementNames
+    val vals = column.productIterator.toList
+    val zipped = cols.zip(vals)
 
+    zipped.filter(_._1 == "name").toList.head._2.toString
+  }
+
+  private def getName(column: DbColumn): String = {
     val cols = column.productElementNames
     val vals = column.productIterator.toList
     val zipped = cols.zip(vals)

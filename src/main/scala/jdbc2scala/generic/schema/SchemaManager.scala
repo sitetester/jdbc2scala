@@ -25,6 +25,7 @@ object SchemaManager {
   }
 
   private def runSql(sql: String): Unit = {
+    println(sql)
     val stmt = ConnectionMaker.makeConnection.createStatement()
 
     try {

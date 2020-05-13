@@ -5,4 +5,5 @@ package jdbc2scala.generic.schema
 case class DbTable(name: String,
                    columns: List[DbColumn],
                    dbIDColumn: DbIDColumn = DbIDColumn(),
-                   indexes: Seq[DbIndex] = Seq())
+                   indexes: Seq[DbIndex] = Seq(),
+                   dBFKColumn: Option[DbFKColumn] = None)

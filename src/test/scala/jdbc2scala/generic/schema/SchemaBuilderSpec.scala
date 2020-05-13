@@ -15,5 +15,14 @@ class SchemaBuilderSpec extends AnyFlatSpec {
       )
 
     SchemaManager.createTable(users)
+
+    val category: DbTable =
+      DbTable(
+        "categories",
+        List(DbColumn("name", isUnique = true)),
+        DbIDColumn("categoryId")
+      )
+
+    SchemaManager.createTable(category)
   }
 }
