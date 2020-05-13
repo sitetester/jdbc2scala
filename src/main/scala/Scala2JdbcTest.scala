@@ -1,11 +1,9 @@
-import jdbc2scala.generic.query.QueryBuilder
 import jdbc2scala.generic.schema.{DbColumn, DbTable}
 
-object Scala2JdbcTest extends App {
+object Scala2JdbcTest {
 
   val dbColumns = List(DbColumn("ID"), DbColumn("username"), DbColumn("password"))
-  val dbTable: DbTable = DbTable("users", dbColumns)
-
+  val usersTable: DbTable = DbTable("users", dbColumns)
   /*val qb = new QueryBuilder(dbTable)
   val row = qb
     .select("ID, MAX(ID)")
@@ -15,7 +13,7 @@ object Scala2JdbcTest extends App {
     .runQuery()*/
 
   // TODO: Write a separate test case for QueryBuilder
-  val qb = new QueryBuilder(dbTable)
+  // val qb = new QueryBuilder(dbTable)
 
   /*
   val row = qb
@@ -33,6 +31,6 @@ object Scala2JdbcTest extends App {
     Seq("ID" -> 7)*/
 
   // qb.deleteWhere(Seq(Map("ID" -> ("=", 8)), Map("username" -> ("=", "testu"))))
-  qb.deleteWhere(Seq(Map("ID" -> (">", 8))))
+  // qb.deleteWhere(Seq(Map("ID" -> (">", 8))))
 
 }
