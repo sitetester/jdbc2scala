@@ -22,34 +22,28 @@ class QueryBuilder(dbTable: DbTable) {
 
   def select(columns: String = "*"): QueryBuilder = {
     if (columns.contains("*")) {
-      _sql += s""" SELECT * FROM `${dbTable.name}`"""
+      _sql += s"""SELECT * FROM `${dbTable.name}`"""
     } else {
-      _sql += s""" SELECT $columns FROM `${dbTable.name}`"""
+      _sql += s"""SELECT $columns FROM `${dbTable.name}`"""
     }
 
     this
   }
 
-  def where(where: Map[String, Any]): QueryBuilder = {
-    val whereClause =
-      where.keys
-        .zip(where.values)
-        .map(m => s""" `${m._1}` = "${m._2}" """)
-        .mkString(" AND ")
-
-    _sql += s""" WHERE $whereClause """
+  def where(where: Seq[Map[String, (String, Any)]]): QueryBuilder = {
+    _sql += s""" WHERE ${buildWhere(where)}"""
 
     this
   }
 
   def whereIn(column: String, in: Seq[Any]): QueryBuilder = {
-    _sql += s""" WHERE $column IN (${in.mkString(", ")}) """
+    _sql += s""" WHERE `$column` IN (${in.mkString(", ")}) """
 
     this
   }
 
   def whereBetween(column: String, between: (Any, Any)): QueryBuilder = {
-    _sql += s""" WHERE $column BETWEEN ${between._1} AND  ${between._2}"""
+    _sql += s""" WHERE `$column` BETWEEN ${between._1} AND  ${between._2}"""
 
     this
   }
@@ -65,17 +59,17 @@ class QueryBuilder(dbTable: DbTable) {
   }
 
   def groupBy(column: String): QueryBuilder = {
-    _sql += s" GROUP BY $column "
+    _sql += s" GROUP BY `$column`"
     this
   }
 
   def having(column: String, operator: String = "=", value: Any): QueryBuilder = {
-    _sql += s" HAVING $column $operator $value"
+    _sql += s" HAVING `$column` $operator $value"
     this
   }
 
   def orderBy(column: String, order: String = "ASC"): QueryBuilder = {
-    _sql += s" ORDER BY $column $order"
+    _sql += s" ORDER BY `$column` $order"
     this
   }
 
@@ -196,19 +190,24 @@ class QueryBuilder(dbTable: DbTable) {
   }
 
   def deleteWhere(where: Seq[Map[String, (String, Any)]]): Unit = {
+
+    val sql = s"""DELETE FROM ${dbTable.name} WHERE ${buildWhere(where)}"""
+    println(sql)
+
+    runUpdateQuery(sql)
+  }
+
+  private def buildWhere(where: Seq[Map[String, (String, Any)]]): String = {
     val whereCols = where.map(m => m.keys.head)
     val whereVals = where.map(m => m.values.head)
 
     val whereClause =
       whereCols
         .zip(whereVals)
-        .map(x => s"""${x._1} ${x._2._1} "${x._2._2}" """)
+        .map(x => s"""`${x._1}` ${x._2._1} "${x._2._2}" """)
         .mkString(" AND ")
 
-    val sql = s"""DELETE FROM ${dbTable.name} WHERE $whereClause"""
-    println(sql)
-
-    runUpdateQuery(sql)
+    whereClause
   }
 
   def executeQuery(sql: String): Option[ResultSet] = {
@@ -220,7 +219,6 @@ class QueryBuilder(dbTable: DbTable) {
       case sQLException: SQLException =>
         println(sQLException.getMessage)
         None
-
     }
   }
 }
