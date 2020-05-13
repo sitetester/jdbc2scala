@@ -20,9 +20,20 @@ class SchemaBuilderSpec extends AnyFlatSpec {
       DbTable(
         "categories",
         List(DbColumn("name", isUnique = true)),
-        DbIDColumn("categoryId")
+        DbIDColumn()
       )
 
     SchemaManager.createTable(category)
+
+    val product: DbTable =
+      DbTable(
+        "products",
+        List(DbColumn("name")),
+        DbIDColumn("productId"),
+        Seq(),
+        Some(DbFKColumn("categoryId", "categories", "ID"))
+      )
+
+    SchemaManager.createTable(product)
   }
 }
